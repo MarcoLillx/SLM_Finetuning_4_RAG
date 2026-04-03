@@ -78,6 +78,10 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 
+# Models 
+.GGUF
+.safetensors
+
 # IPython
 profile_default/
 ipython_config.py
@@ -98,7 +102,7 @@ ipython_config.py
 #   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
 #   This is especially recommended for binary packages to ensure reproducibility, and is more
 #   commonly ignored for libraries.
-#uv.lock
+uv.lock
 
 # poetry
 #   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
@@ -140,6 +144,7 @@ celerybeat.pid
 .venv
 env/
 venv/
+.venv/
 ENV/
 env.bak/
 venv.bak/
@@ -205,3 +210,9 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Data
+data/
+
+# Models
+outputs/
