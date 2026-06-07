@@ -2,11 +2,9 @@
 
 **Fine-tuning Qwen3-1.7B with QLoRA for Retrieval-Augmented Generation on Italian Public Administration Documents**
 
-> Project for the courses: Machine Learning & Semantics in Intelligent Information Access (MSc Computer Science: AI)
-
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 User Query → Retriever (FAISS + Multilingual Embeddings) → Top-k Chunks → Generator (Qwen3-1.7B / QLoRA Fine-tuned) → Answer
@@ -25,7 +23,7 @@ User Query → Retriever (FAISS + Multilingual Embeddings) → Top-k Chunks → 
 
 ---
 
-## 🔧 Technical Stack
+## Technical Stack
 
 - **Base Model**: [Qwen3-1.7B](https://huggingface.co/Qwen/Qwen3-1.7B)
 - **Fine-tuning**: QLoRA (4-bit NF4 quantization + LoRA r=8)
@@ -74,7 +72,7 @@ User Query → Retriever (FAISS + Multilingual Embeddings) → Top-k Chunks → 
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Local (GTX 1650 / any GPU)
 
@@ -96,13 +94,13 @@ python -m src.main compare
 ### Google Colab (T4 GPU — Recommended for Training)
 
 1. Upload project to Google Drive
-2. Open `notebooks/colab_training.ipynb`
+2. Open `notebooks/slm-finetuning-rag-pa.ipynb`
 3. Set Runtime → T4 GPU
 4. Follow the notebook cells
 
 ---
 
-## 📊 Evaluation Metrics
+## Evaluation Metrics
 
 | Metric | Description |
 |--------|-------------|
@@ -113,7 +111,7 @@ python -m src.main compare
 
 ---
 
-## 📄 Data
+## Data
 
 16 Italian Public Administration regulatory documents from Empulia, including:
 - EU Directives (2014/23/UE, 2014/24/UE, 2014/25/UE)
@@ -123,6 +121,6 @@ python -m src.main compare
 
 ---
 
-## 📝 License
+## License
 
 MIT License

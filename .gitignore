@@ -213,6 +213,8 @@ __marimo__/
 
 # Data
 data/
+.json
+.github
 
 # Models
 outputs/
