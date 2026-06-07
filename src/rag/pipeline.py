@@ -59,8 +59,11 @@ class RAGPipeline:
         retrieved_chunks = self.retriever.retrieve(question, top_k)
         retrieval_time = time.time() - start_time
 
-        # Build context string
-        context = self.retriever.retrieve_as_context(question, top_k)
+        # Build context string from the already-retrieved chunks
+        
+        context = "\n\n---\n\n".join(
+            f"[Fonte: {chunk['source']}]\n{chunk['text']}" for chunk in retrieved_chunks
+        )
 
         # Generate answer
         gen_start = time.time()

@@ -157,7 +157,10 @@ def train_model(config: Optional[Config] = None, num_epochs: Optional[int] = Non
     logger.info("Training complete!")
     logger.info(f"  Total steps: {trainer.state.global_step}")
     logger.info(f"  Training loss: {metrics.get('train_loss', 'N/A')}")
-    logger.info(f"  Training runtime: {metrics.get('train_runtime', 'N/A'):.1f}s")
+    train_runtime = metrics.get("train_runtime")
+    logger.info(
+         f"  Training runtime: {train_runtime:.1f}s" if isinstance(train_runtime, (int, float)) else f"  Training runtime: {train_runtime or 'N/A'}"
+     )
     logger.info(f"  Model saved to: {output_dir}")
     logger.info("=" * 60)
 

@@ -9,7 +9,6 @@ import logging
 from pathlib import Path
 from typing import Optional
 
-import pandas as pd
 from datasets import Dataset
 
 from src.config import Config, get_config

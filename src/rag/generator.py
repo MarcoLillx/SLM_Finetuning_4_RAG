@@ -12,7 +12,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 from peft import PeftModel
 
 from src.config import Config, get_config
-from src.data.dataset_builder import get_inference_prompt
+#from src.data.dataset_builder import get_inference_prompt
 
 logger = logging.getLogger(__name__)
 
