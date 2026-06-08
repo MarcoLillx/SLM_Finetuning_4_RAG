@@ -215,6 +215,8 @@ __marimo__/
 data/
 .json
 .github
+notebooks/eval/*.json
+notebooks/plots/*.png
 
 # Models
 outputs/
