@@ -30,3 +30,7 @@ scikit-learn>=1.4.0
 
 # Utilities
 tqdm>=4.66.0
+networkx>=3.0.0
+
+# UI
+streamlit>=1.30.0
