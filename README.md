@@ -57,13 +57,15 @@ flowchart TD
 ### 🧪 Ablation Study
 Our 2×2 factorial ablation study on a held-out test set evaluated the independent effects of fine-tuning and retrieval strategy:
 
-| Effect | ROUGE-L | BERTScore | Context Recall | 
-|---|---|---|---|
-| **QLoRA Fine-tuning** | **+25.8%** | **+7.9%** | +1.2% |
-| **Hybrid KG Retrieval** | +2.1% | +0.8% | **+6.3%** |
+| Effect | ROUGE-L | BERTScore | Context Recall | Faithfulness |
+|---|---|---|---|---|
+| **Base + Dense** | 0.129 | 0.564 | 0.425 | 0.295 |
+| **Base + Hybrid** | 0.111 | 0.551 | 0.418 | 0.256 |
+| **QLoRA + Dense** | **0.161** | 0.654 | **0.425** | **0.418** |
+| **QLoRA + Hybrid** | 0.149 | **0.658** | 0.418 | 0.389 |
 
-- **Fine-Tuning Impact**: QLoRA is the primary driver of generation quality, successfully adapting the base model to the formal tone and structure of Italian legal text.
-- **Retrieval Impact**: Hybrid retrieval significantly improves context recall by discovering structurally related documents that pure dense similarity misses.
+- **Fine-Tuning Impact**: QLoRA is the primary driver of performance. It drove a **+24.8\%** increase in ROUGE-L, a **+15.9\%** increase in BERTScore, and a massive **+41.7\%** increase in Faithfulness over the baseline. The model successfully learned to synthesize answers in formal Italian rather than copying text verbatim.
+- **Retrieval Impact**: Surprisingly, the Hybrid (KG) retrieval slightly underperformed the pure Dense retrieval (Context Recall dropped from 0.425 to 0.418). This negative finding suggests that the extracted Knowledge Graph may be too sparse, causing Reciprocal Rank Fusion to occasionally down-rank highly relevant semantic chunks in favor of noisy graph matches.
 
 ---
 

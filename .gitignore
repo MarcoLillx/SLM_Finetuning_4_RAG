@@ -218,6 +218,7 @@ data/
 notebooks/eval/*.json
 notebooks/plots/*.png
 notebooks/reports/*.pdf
+doc/*.pdf
 
 # Models
 outputs/
