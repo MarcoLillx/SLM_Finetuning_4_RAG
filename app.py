@@ -69,6 +69,31 @@ def generate_answer(query, contexts, model, tokenizer):
     answer = tokenizer.decode(out[0][inputs['input_ids'].shape[1]:], skip_special_tokens=True).strip()
     return answer, context_text
 
+def generate_answer_from_knowledge(query, model, tokenizer):
+    """Generate an answer using only the model's internal knowledge (no RAG context)."""
+    prompt = (
+        "### Istruzione:\nSei un assistente esperto di normativa italiana e diritto pubblico. "
+        "Rispondi alla domanda utilizzando la tua conoscenza generale del diritto italiano e "
+        "della normativa europea. Fornisci una risposta accurata e utile.\n\n"
+        f"### Domanda:\n{query}\n\n"
+        "### Risposta:\n"
+    )
+    inputs = tokenizer(prompt, return_tensors='pt', truncation=True, max_length=2048)
+    inputs = {k: v.to(model.device) for k, v in inputs.items()}
+    
+    with torch.no_grad():
+        out = model.generate(
+            **inputs, 
+            max_new_tokens=256, 
+            temperature=0.3, 
+            top_p=0.95, 
+            repetition_penalty=1.05,
+            pad_token_id=tokenizer.pad_token_id,
+        )
+    answer = tokenizer.decode(out[0][inputs['input_ids'].shape[1]:], skip_special_tokens=True).strip()
+    return answer, ""
+
+
 st.title("⚖️ Assistente Legale PA")
 st.markdown("Finetuned **Qwen3-1.7B** + **Hybrid Retrieval** (Dense & KG) + **CrossEncoder Reranking**")
 
@@ -95,24 +120,32 @@ if query := st.chat_input("Fai una domanda sulla normativa..."):
         with st.spinner("Ricerca e Reranking dei documenti..."):
             chunks = retriever.retrieve(query)
             
-        # Refusal threshold logic (Calibrated in 03_ensemble_methods.ipynb)
-        if chunks and chunks[0].get("score", 0) < 0.0164:
-            refusal_msg = "Non ho trovato informazioni pertinenti o sufficienti nella documentazione giuridica per rispondere a questa domanda in modo accurato."
-            st.markdown(refusal_msg)
-            
-            # Formattazione del contesto per l'espansore (anche se rifiutato, mostriamo cosa ha trovato)
-            context_text = ""
-            for i, chunk in enumerate(chunks[:3]):
-                score = chunk.get('score', 0)
-                source = chunk.get('source', 'Sconosciuta')
-                text = chunk.get('text', '')
-                context_text += f"**[Fonte: {source} | Rerank: {score:.2f}]** {text[:500]}...\n\n"
-                
-            st.session_state.messages.append({"role": "assistant", "content": refusal_msg, "context": context_text})
-        else:
-            with st.spinner("Generazione della risposta in corso..."):
-                answer, context_text = generate_answer(query, chunks, model, tokenizer)
+        # Check if retrieved documents are relevant enough
+        top_score = chunks[0].get("rerank_score", -10.0) if chunks else -10.0
+        
+        # Format retrieved docs for display (always shown)
+        context_display = ""
+        for chunk in chunks[:3]:
+            score = chunk.get('rerank_score', -10.0)
+            source = chunk.get('source', 'Sconosciuta')
+            text = chunk.get('text', '')
+            context_display += f"**[Fonte: {source} | Rerank: {score:.2f}]** {text[:500]}...\n\n"
+        
+        if top_score < 0.5:
+            # Low relevance: let the model answer from its own knowledge
+            with st.spinner("Documenti non sufficienti. Generazione risposta dal modello..."):
+                answer, _ = generate_answer_from_knowledge(query, model, tokenizer)
+                st.info("⚠️ I documenti recuperati non contengono informazioni sufficienti. "
+                        "La risposta è generata dalla conoscenza interna del modello.")
                 st.markdown(answer)
-                st.session_state.messages.append({"role": "assistant", "content": answer, "context": context_text})
-            with st.expander("Mostra Documenti Recuperati e Punteggi"):
-                st.markdown(context_text)
+        else:
+            # High relevance: standard RAG generation
+            with st.spinner("Generazione della risposta in corso..."):
+                answer, _ = generate_answer(query, chunks, model, tokenizer)
+                st.markdown(answer)
+        
+        with st.expander("Mostra Documenti Recuperati e Punteggi"):
+            st.markdown(context_display)
+        
+        st.session_state.messages.append({"role": "assistant", "content": answer, "context": context_display})
+
