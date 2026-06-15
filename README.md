@@ -117,6 +117,10 @@ To run the app locally without retraining the model, you must download the artif
 - `outputs/chunks.json`
 - `outputs/knowledge_graph.json`
 
+Or in the notebooks folders:
+- `notebooks/qlora_adapter/` (The PEFT weights)
+- `notebooks/eval/` (The evaluation results)
+
 ### 3. Launch the Application
 Start the Streamlit interface:
 

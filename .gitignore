@@ -148,7 +148,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-
+.venv_gpu
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -212,14 +212,14 @@ marimo/_lsp/
 __marimo__/
 
 # Data
-data/
-.json
+data/*.pdf
 .github
-notebooks/eval/*.json
-notebooks/plots/*.png
+notebooks/eval/*
+!notebooks/eval/.gitkeep
 notebooks/reports/*.pdf
 
 
 # Models
 outputs/
-notebooks/qlora_adapter/
+notebooks/qlora_adapter/*
+!notebooks/qlora_adapter/.gitkeep
