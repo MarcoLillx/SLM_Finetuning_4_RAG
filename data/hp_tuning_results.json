@@ -1,0 +1,42 @@
+[
+  {
+    "name": "r8_lr1e4",
+    "lora_r": 8,
+    "lora_alpha": 16,
+    "lr": 0.0001,
+    "trainable_params": 8716288,
+    "train_loss": 1.5316766579945882,
+    "eval_loss": 1.4017046689987183,
+    "duration_min": 11.207794233163197
+  },
+  {
+    "name": "r8_lr2e4",
+    "lora_r": 8,
+    "lora_alpha": 16,
+    "lr": 0.0002,
+    "trainable_params": 8716288,
+    "train_loss": 1.4378472328186036,
+    "eval_loss": 1.3143640756607056,
+    "duration_min": 11.214585002263387
+  },
+  {
+    "name": "r16_lr1e4",
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lr": 0.0001,
+    "trainable_params": 17432576,
+    "train_loss": 1.4590541203816731,
+    "eval_loss": 1.3367012739181519,
+    "duration_min": 11.218692060311636
+  },
+  {
+    "name": "r16_lr2e4",
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lr": 0.0002,
+    "trainable_params": 17432576,
+    "train_loss": 1.38486967086792,
+    "eval_loss": 1.2718441486358643,
+    "duration_min": 11.212586681048075
+  }
+]
