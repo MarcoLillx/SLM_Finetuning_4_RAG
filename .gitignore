@@ -214,10 +214,12 @@ __marimo__/
 # Data
 data/*.pdf
 .github
-notebooks/eval/*.json
+notebooks/eval/*
+!notebooks/eval/.gitkeep
 notebooks/reports/*.pdf
 
 
 # Models
 outputs/
-notebooks/qlora_adapter/
+notebooks/qlora_adapter/*
+!notebooks/qlora_adapter/.gitkeep
