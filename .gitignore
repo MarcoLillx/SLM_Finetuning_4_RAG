@@ -217,8 +217,10 @@ data/*.pdf
 notebooks/eval/*
 !notebooks/eval/.gitkeep
 notebooks/reports/*.pdf
-
-
+doc/paper1.pdf
+doc/paper2.pdf
+doc/paper3.pdf
+doc/paper4.pdf
 # Models
 outputs/
 notebooks/qlora_adapter/*
