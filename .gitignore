@@ -213,7 +213,7 @@ __marimo__/
 
 # Data
 data/*.pdf
-.github
+.github/skills/ml-rag-project-workflow
 notebooks/eval/*
 !notebooks/eval/.gitkeep
 notebooks/reports/*.pdf
